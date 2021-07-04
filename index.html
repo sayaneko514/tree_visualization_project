@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<style>
+
+.node circle {
+  fill: #fff;
+  stroke-width: 3px;
+}
+
+.node text {
+  font: 12px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+}
+
+</style>
+
+<body>
+ This is the index of some warships commissioned during WWII<br><br>
+ IJN: Imperial Japanese Navy<br>
+ USS: United States Ship<br>
+ HMS: Her/His Majesty's Ship<br>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script>
+
+var treeData =
+  {
+  "name": "Warships",
+  "children":[
+{
+    "name": "IJN",
+    "value": 52,
+    "children": [
+      {
+        "name": "Destroyers",
+        "value": 19,
+        "children": [
+          {
+            "name": "Fubuki-class",
+            "year": 1926,
+            "value": 5,
+            "children": [
+              {
+                "name": "Type I Fubuki-class",
+                "year":1926,
+                "value":1
+              },
+              {
+                "name": "Type II Ayanami-class",
+                "year":1928,
+                "value":1
+              },
+              {
+                "name": "Type III Akatsuki-class",
+                "year":1930,
+                "value":3
+              }
+            ]
+          },
+          {
+            "name": "Shiratsuyu-class",
+            "year": 1931,
+            "value": 4
+          },
+          {
+            "name": "Kagero-class",
+            "year": 1939,
+            "value": 10
+          }
+        ]
+      },
+      {
+        "name": "Crusiers",
+        "value": 15, 
+        "children": [
+          {
+            "name": "Sendai-class",
+            "year": 1922,
+            "value": 3
+          },
+          {
+            "name": "Myoukou-class",
+            "year": 1924,
+            "value": 4
+          },
+          {
+            "name": "Takao-class",
+            "year": 1930,
+            "value": 4
+          },
+          {
+            "name": "Agano-class",
+            "year": 1940,
+            "value": 4
+          }
+        ]
+      },
+      {
+        "name": "Battleships",
+        "value": 11,
+        "children": [
+          {
+            "name": "Kongo-class",
+            "year": 1920,
+            "value": 4
+          },
+          {
+            "name": "Fuso-class",
+            "year": 1930,
+            "value": 2
+          },
+          {
+            "name": "Nagato-class",
+            "year": 1930,
+            "value": 2
+          },
+          {
+            "name": "Yamato-class",
+            "year": 1937,
+            "value": 3
+          }
+        ]
+      },
+      {
+        "name": "Carriers",
+        "value": 7,
+        "children": [
+          {
+            "name": "Akagi-class",
+            "year": 1921,
+            "value": 1
+          },
+          {
+            "name": "Kaga-class",
+            "year": 1925,
+            "value": 1
+          },
+          {
+            "name": "Soryu-class",
+            "year": 1935,
+            "value": 1
+          },
+          {
+            "name": "Hiryu-class",
+            "year": 1937,
+            "value": 1
+          },
+          {
+            "name": "Shokaku-class",
+            "year": 1939,
+            "value": 2
+          },
+          {
+            "name": "Taiho-class",
+            "year": 1943,
+            "value": 1
+          }
+          
+          
+        ]
+      }
+    ]
+  },
+  {
+    "name": "USS",
+    "value": 51,
+    "children":[
+      {
+        "name": "Destroyers",
+        "value": 23,
+
+        "children": [
+          {
+            "name": "Gridley-class",
+            "year": 1935,
+            "value": 4
+          },
+          
+          {
+            "name": "Benson-class",
+            "year": 1935,
+            "value": 5
+          },
+          
+          {
+            "name": "Fletcher-class",
+            "year": 1941,
+            "value": 14
+          }
+        ]
+      },
+      {
+        "name": "Crusiers",
+        "value": 14,
+        "children":[
+          {
+            "name": "brooklyn-class",
+            "year": 1935,
+            "value": 5
+          },
+          {
+            "name": "Atlanta-class",
+            "year":1941,
+            "value": 4
+          },
+          {
+            "name": "Haguro",
+            "year": 1942,
+            "value": 5
+          },
+        ]
+      },
+      {
+        "name": "Battleships",
+        "value": 8,
+        "children":[
+          {
+            "name": "Colorado-class",
+            "year": 1917,
+            "value": 3
+          },
+          {
+            "name": "North Carolina-class",
+            "year": 1937,
+            "value": 2
+          },
+          {
+            "name": "South Dakota-class",
+            "year": 1939,
+            "value": 3
+          }
+        ]
+      },
+      
+      {
+        "name": "Carriers",
+        "value": 6,
+        "children":[
+          {
+            "name": "Lexington-class",
+            "year": 1920,
+            "value": 2
+          },
+          {
+            "name": "Yorktown-class",
+            "year": 1936,
+            "value": 3
+          },
+          {
+            "name": "Essex-class",
+            "year": 1941,
+            "value": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "HMS",
+    "value": 46,
+    "children":[
+      {
+        "name": "Destroyers",
+        "value": 14,
+        "children":[
+          {
+            "name": "C-class",
+            "year": 1914,
+            "value":3
+          },
+          {
+            "name": "F-class",
+            "year": 1933,
+            "value":2
+          },
+          {
+            "name": "G-class",
+            "year": 1934,
+            "value":2
+          },
+          {
+            "name": "M-class",
+            "year": 1938,
+            "value":2
+          },
+          {
+            "name": "J-class",
+            "year": 1939,
+            "value":4
+          },
+          {
+            "name": "V-class",
+            "year": 1941,
+            "value":1
+          }       
+          
+        ]
+      },
+      {
+        "name": "Crusiers",
+        "value": 18,
+        "children":[
+          {
+            "name": "County-class",
+            "year": 1924,
+            "value":7,
+            "children":[
+              {
+                "name": "Kent-class",
+                "year":1924,
+                "value":2
+              },
+              {
+                "name": "London-class",
+                "year":1925,
+                "value":3
+              },
+              {
+                "name": "Norfolk-class",
+                "year":1926,
+                "value":2
+              },
+              {
+                "name": "York-class",
+                "year":1926,
+                "value":2
+              }
+            ]
+          },
+          {
+            "name": "Arethusa-class",
+            "year": 1933,
+            "value":3
+          },
+          {
+            "name": "Town-class",
+            "year": 1934,
+            "value":5,
+            "children":[
+              {
+                "name": "Southampton-class",
+                "year":1934,
+                "value":3
+              },
+              {
+                "name": "Edinburgh-class",
+                "year":1938,
+                "value":2
+              }
+            ]
+            
+          },
+          {
+            "name": "Leander-class",
+            "year": 1936,
+            "value":3
+          }      
+          
+        ]
+      },
+      {
+        "name": "Carriers",
+        "value": 7,
+        "children":[
+          {
+            "name": "Ark Royal-class",
+            "year": 1935,
+            "value":1
+          },
+          {
+            "name": "Unicorn-class",
+            "year": 1939,
+            "value":1
+          },
+          {
+            "name": "Illustrious-class",
+            "year": 1940,
+            "value":3
+          },
+          {
+            "name": "Centaur-class",
+            "year": 1944,
+            "value":2
+          }      
+          
+        ]
+      },
+      {
+        "name": "Battleships",
+        "value": 7,
+        "children":[
+          {
+            "name": "Queen Elizabeth-class",
+            "year": 1914,
+            "value":2
+          },
+          {
+            "name": "Admiral-class",
+            "year": 1920,
+            "value":1
+          },
+          {
+            "name": "Nelson-class",
+            "year": 1927,
+            "value":2
+          },
+          {
+            "name": "King George V-class",
+            "year": 1940,
+            "value":3
+          }      
+          
+        ]
+      }
+    ]
+  }
+]
+};
+
+var margin = {top: 20, right: 90, bottom: 30, left: 90},
+    width = 1280 - margin.left - margin.right,
+    height = 900 - margin.top - margin.bottom;
+
+var colorScale = d3.scaleLinear()
+    .domain([0, 1])
+		.range(['red', 'green']);
+var widthScale = d3.scaleLinear()
+		.domain([1,80])
+		.range([1, 10]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")");
+
+var i = 0,
+    duration = 750,
+    root;
+
+var treemap = d3.tree().size([height, width]);
+
+root = d3.hierarchy(treeData, function(d) { return d.children; });
+root.x0 = height / 2;
+root.y0 = 0;
+
+root.children.forEach(collapse);
+
+update(root);
+
+function collapse(d) {
+  if(d.children) {
+    d._children = d.children
+    d._children.forEach(collapse)
+    d.children = null
+  }
+}
+
+function update(source) {
+
+  var treeData = treemap(root);
+
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+  nodes.forEach(function(d){ d.y = d.depth * 180});
+
+
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click);
+
+  nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', 1e-6)
+      .style("fill", function(d) {
+          return d._children ? "lightsteelblue" : "#fff";
+      })
+  		.style("stroke", function(d){return colorScale(d.data.female/(d.data.female + d.data.male))});
+
+  nodeEnter.append('text')
+      .attr("dy", ".35em")
+      .attr("x", function(d) {
+          return d.children || d._children ? -13 : 13;
+      })
+      .attr("text-anchor", function(d) {
+          return d.children || d._children ? "end" : "start";
+      })
+      .text(function(d) { return d.data.name; })
+  		.style("fill", function(d){return colorScale(d.data.female/(d.data.value))});
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  nodeUpdate.select('circle.node')
+    .attr('r', 10)
+    .style("fill", function(d) {
+        return d._children ? "lightsteelblue" : "#fff";
+    })
+    .attr('cursor', 'pointer');
+
+
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; })
+  		.style('stroke-width', function(d){
+        return widthScale(d.data.value)
+      });
+
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      })
+  		.style('stroke-width', function(d){
+        return widthScale(d.data.value)
+      });
+
+  var linkUpdate = linkEnter.merge(link);
+
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+  		.style('stroke-width', function(d){
+        return widthScale(d.data.value)
+      })
+      .remove();
+
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  function click(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+    update(d);
+  }
+}
+
+</script>
+</body>
